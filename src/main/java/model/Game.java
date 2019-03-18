@@ -6,15 +6,20 @@ import java.util.List;
 public class Game {
     private List<Player> players;
     private Deck deck;
+    private List<Card> river;
 
     public Game() {
-        this.players = new ArrayList<>();
-        this.deck = new Deck();
+        players = new ArrayList<>();
+        deck = new Deck();
     }
 
     public Game(int numberOfPlayers) {
-        this.players = createPlayers(numberOfPlayers);
-        this.deck = new Deck();
+        players = createPlayers(numberOfPlayers);
+        deck = new Deck();
+    }
+
+    public void start() {
+        river = deck.drawCards(5);
     }
 
     private List<Player> createPlayers(int numberOfPlayers) {
@@ -27,12 +32,15 @@ public class Game {
     }
 
     public List<Player> getPlayers() {
-        return this.players;
-
+        return players;
     }
 
     public Deck getDeck() {
         return deck;
+    }
+
+    public List<Card> getRiver() {
+        return river;
     }
 
 }

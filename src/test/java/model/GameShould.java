@@ -35,4 +35,14 @@ public class GameShould {
         Assert.assertEquals(52, deck.getSize());
     }
 
+    @Test
+    public void drawARiverWhenGameStarts() {
+        Game game = new Game();
+        game.start();
+        int deckSize = game.getDeck().getSize();
+        int riverSize = game.getRiver().size();
+        Assert.assertEquals(47, deckSize);
+        Assert.assertEquals(5, riverSize);
+    }
+
 }
