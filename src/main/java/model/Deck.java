@@ -23,8 +23,16 @@ public class Deck {
 
     public Card drawCard() {
         Random randomGenerator = new Random();
-        int randomCardIndex = randomGenerator.nextInt(51);
+        int randomCardIndex = randomGenerator.nextInt(cards.size() - 1);
         return cards.remove(randomCardIndex);
+    }
+
+    public List<Card> drawCards(int numberOfCardsToDraw) {
+        List<Card> cardsToDraw = new ArrayList<>();
+        for (int i = 0; i < numberOfCardsToDraw; i++) {
+            cardsToDraw.add(drawCard());
+        }
+        return cardsToDraw;
     }
 
     public int getSize() {

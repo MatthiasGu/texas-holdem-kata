@@ -3,6 +3,8 @@ package model;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.List;
+
 public class DeckShould {
 
     @Test
@@ -14,8 +16,14 @@ public class DeckShould {
     @Test
     public void drawACardFromTheDeckWhenDrawCardIsCalled() {
         Deck deck = new Deck();
-        Card card = deck.drawCard();
-        System.out.println(card);
+        deck.drawCard();
         Assert.assertEquals(51, deck.getSize());
+    }
+
+    @Test
+    public void drawGivenNumberOfCardsFromTheDeckWhenDrawCardIsCalled() {
+        Deck deck = new Deck();
+        deck.drawCards(5);
+        Assert.assertEquals(47, deck.getSize());
     }
 }
