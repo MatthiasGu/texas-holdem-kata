@@ -1,7 +1,5 @@
 package model;
 
-import model.Game;
-import model.Player;
 import org.junit.Assert;
 import org.junit.Test;
 

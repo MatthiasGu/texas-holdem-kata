@@ -9,4 +9,12 @@ public class Player {
         this.playerNumber = playerNumber;
         this.playerName = String.format("Player %d", playerNumber);
     }
+
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
 }
