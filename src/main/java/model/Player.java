@@ -2,7 +2,11 @@ package model;
 
 public class Player {
 
-    public Player() {
+    private int playerNumber;
+    private String playerName;
 
+    public Player(int playerNumber) {
+        this.playerNumber = playerNumber;
+        this.playerName = String.format("Player %d", playerNumber);
     }
 }
