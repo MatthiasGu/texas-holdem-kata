@@ -35,6 +35,17 @@ public class Deck {
         return cardsToDraw;
     }
 
+    public boolean containsCard(Card cardToCheck) {
+        Suit suit = cardToCheck.getSuit();
+        Rank rank = cardToCheck.getRank();
+        for (Card card: cards) {
+            if (card.getRank() == rank && card.getSuit() == suit) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int getSize() {
         return cards.size();
     }

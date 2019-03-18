@@ -21,6 +21,13 @@ public class DeckShould {
     }
 
     @Test
+    public void notHaveTheCardInTheDeckWhenItIsDrawn() {
+        Deck deck = new Deck();
+        Card card = deck.drawCard();
+        Assert.assertEquals(false, deck.containsCard(card));
+    }
+
+    @Test
     public void drawGivenNumberOfCardsFromTheDeckWhenDrawCardIsCalled() {
         Deck deck = new Deck();
         deck.drawCards(5);
