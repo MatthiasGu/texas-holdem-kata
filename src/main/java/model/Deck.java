@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Deck {
     private List<Card> cards;
@@ -18,6 +19,12 @@ public class Deck {
             }
         }
         return cards;
+    }
+
+    public Card drawCard() {
+        Random randomGenerator = new Random();
+        int randomCardIndex = randomGenerator.nextInt(51);
+        return cards.remove(randomCardIndex);
     }
 
     public int getSize() {

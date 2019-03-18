@@ -19,5 +19,9 @@ public class Card {
         return rank;
     }
 
+    public String toString() {
+        return rank.getSymbol() + " of " + suit.toString();
+    }
+
 
 }

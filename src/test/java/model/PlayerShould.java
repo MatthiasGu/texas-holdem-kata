@@ -10,15 +10,15 @@ public class PlayerShould {
     @Test
     public void haveACorrectNameAndNumberWhenInitialised() {
         int playerNumber = 1;
-        Player player = new Player(1);
-        Assert.assertEquals(1, player.getPlayerNumber());
+        Player player = new Player(playerNumber);
+        Assert.assertEquals(playerNumber, player.getPlayerNumber());
         Assert.assertEquals("Player 1", player.getPlayerName());
     }
 
     @Test
     public void haveAnEmptyHandByDefault() {
         int playerNumber = 1;
-        Player player = new Player(1);
+        Player player = new Player(playerNumber);
         Hand hand = player.getHand();
         Assert.assertEquals(0, hand.getSize());
     }
