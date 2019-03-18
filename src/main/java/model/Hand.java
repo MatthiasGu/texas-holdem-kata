@@ -12,6 +12,11 @@ public class Hand {
     }
 
     public List<Card> getCards() {
-        return cards;
+        return this.cards;
     }
+
+    public int getSize() {
+        return this.cards.size();
+    }
+
 }

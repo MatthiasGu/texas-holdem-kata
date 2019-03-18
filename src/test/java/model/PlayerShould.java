@@ -20,7 +20,6 @@ public class PlayerShould {
         int playerNumber = 1;
         Player player = new Player(1);
         Hand hand = player.getHand();
-        List<Card> cardsInHand = hand.getCards();
-        Assert.assertEquals(0, cardsInHand.size());
+        Assert.assertEquals(0, hand.getSize());
     }
 }

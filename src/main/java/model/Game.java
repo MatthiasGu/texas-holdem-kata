@@ -5,13 +5,16 @@ import java.util.List;
 
 public class Game {
     private List<Player> players;
+    private Deck deck;
 
     public Game() {
         this.players = new ArrayList<>();
+        this.deck = new Deck();
     }
 
     public Game(int numberOfPlayers) {
         this.players = createPlayers(numberOfPlayers);
+        this.deck = new Deck();
     }
 
     private List<Player> createPlayers(int numberOfPlayers) {
@@ -25,5 +28,11 @@ public class Game {
 
     public List<Player> getPlayers() {
         return this.players;
+
     }
+
+    public Deck getDeck() {
+        return deck;
+    }
+
 }

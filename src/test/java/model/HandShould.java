@@ -10,7 +10,6 @@ public class HandShould {
     @Test
     public void haveNoCardsByDefault() {
         Hand hand = new Hand();
-        List<Card> cardsInHand = hand.getCards();
-        Assert.assertEquals(0, cardsInHand.size());
+        Assert.assertEquals(0, hand.getSize());
     }
 }

@@ -28,6 +28,13 @@ public class GameShould {
         Assert.assertEquals(5, players.size());
     }
 
+    @Test
+    public void initialiseWithAFullStartingDeck() {
+        Game game = new Game();
+        Deck deck = game.getDeck();
+        Assert.assertEquals(52, deck.getSize());
+    }
+
 
 
 }
