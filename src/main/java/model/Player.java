@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 public class Player {
 
     private int playerNumber;
@@ -22,5 +24,9 @@ public class Player {
 
     public Hand getHand() {
         return hand;
+    }
+
+    public void setHand(List<Card> cards) {
+        this.hand = new Hand(cards);
     }
 }

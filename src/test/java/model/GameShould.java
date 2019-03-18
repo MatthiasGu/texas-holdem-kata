@@ -45,4 +45,18 @@ public class GameShould {
         Assert.assertEquals(5, riverSize);
     }
 
+    @Test
+    public void drawPlayerHandsWhenGameStarts() {
+        int numberOfPlayers = 2;
+        Game game = new Game(numberOfPlayers);
+        game.start();
+        List<Player> players = game.getPlayers();
+        int deckSize = game.getDeck().getSize();
+        int player1HandSize = players.get(0).getHand().getSize();
+        int player2HandSize = players.get(1).getHand().getSize();
+        Assert.assertEquals(43, deckSize);
+        Assert.assertEquals(2, player1HandSize);
+        Assert.assertEquals(2, player2HandSize);
+    }
+
 }

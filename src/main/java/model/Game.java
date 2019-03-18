@@ -20,6 +20,14 @@ public class Game {
 
     public void start() {
         river = deck.drawCards(5);
+        drawPlayerHands();
+    }
+
+    private void drawPlayerHands() {
+        players.forEach(player -> {
+            List<Card> cardsToDraw = deck.drawCards(2);
+            player.setHand(cardsToDraw);
+        });
     }
 
     private List<Player> createPlayers(int numberOfPlayers) {
