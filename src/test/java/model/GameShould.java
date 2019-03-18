@@ -21,4 +21,13 @@ public class GameShould {
         Assert.assertEquals(1, players.size());
     }
 
+    @Test
+    public void bePossibleToInitialiseWithMultiplePlayers() {
+        Game game = new Game(5);
+        List<Player> players = game.getPlayers();
+        Assert.assertEquals(5, players.size());
+    }
+
+
+
 }

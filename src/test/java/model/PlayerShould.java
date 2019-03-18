@@ -3,6 +3,8 @@ package model;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.List;
+
 public class PlayerShould {
 
     @Test
@@ -11,5 +13,14 @@ public class PlayerShould {
         Player player = new Player(1);
         Assert.assertEquals(1, player.getPlayerNumber());
         Assert.assertEquals("Player 1", player.getPlayerName());
+    }
+
+    @Test
+    public void haveAnEmptyHandByDefault() {
+        int playerNumber = 1;
+        Player player = new Player(1);
+        Hand hand = player.getHand();
+        List<Card> cardsInHand = hand.getCards();
+        Assert.assertEquals(0, cardsInHand.size());
     }
 }
