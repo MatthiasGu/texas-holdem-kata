@@ -13,8 +13,8 @@ public class Deck {
     private List<Card> initialiseStartingDeck() {
         List<Card> cards = new ArrayList<>();
         for (Suit suit: Suit.values()) {
-            for (int val = 2; val <= 14; val++) {
-                cards.add(new Card(suit, val));
+            for (Rank rank: Rank.values()) {
+                cards.add(new Card(suit, rank));
             }
         }
         return cards;

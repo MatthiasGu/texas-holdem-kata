@@ -7,10 +7,10 @@ public class CardShould {
 
     @Test
     public void beCreatedWithASuitAndValue() {
-        Card card = new Card(Suit.HEARTS, 13);
+        Card card = new Card(Suit.HEARTS, Rank.KING);
         Suit suit = card.getSuit();
-        int value = card.getValue();
+        Rank rank = card.getRank();
         Assert.assertEquals(Suit.HEARTS, suit);
-        Assert.assertEquals(13, value);
+        Assert.assertEquals(Rank.KING, rank);
     }
 }

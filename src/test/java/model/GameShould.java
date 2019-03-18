@@ -35,6 +35,4 @@ public class GameShould {
         Assert.assertEquals(52, deck.getSize());
     }
 
-
-
 }
