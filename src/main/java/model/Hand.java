@@ -37,5 +37,9 @@ public class Hand {
         }
         return false;
     }
+    
+    public void sortHand() {
+        cards.sort(Card::compareTo);
+    }
 
 }
