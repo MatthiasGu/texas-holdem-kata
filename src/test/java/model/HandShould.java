@@ -18,10 +18,10 @@ public class HandShould {
     @Test
     public void beSortedBySuit() {
         Hand hand = new Hand();
-        hand.addCard(CardFactory.createAceOfHearts());
-        hand.addCard(CardFactory.createAceOfDiamonds());
-        hand.addCard(CardFactory.createKingOfHearts());
-        hand.addCard(CardFactory.createAceOfSpades());
+        hand.addCard(CardFactory.createAceOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createAceOfSuit(Suit.DIAMONDS));
+        hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createAceOfSuit(Suit.SPADES));
         hand.sortHand();
         List<Card> cards = hand.getCards();
         Assert.assertEquals(Suit.DIAMONDS, cards.get(0).getSuit());
@@ -33,10 +33,10 @@ public class HandShould {
     @Test
     public void beSortedByRankIfTheSuitIsTheSame() {
         Hand hand = new Hand();
-        hand.addCard(CardFactory.createKingOfHearts());
-        hand.addCard(CardFactory.createQueenOfHearts());
-        hand.addCard(CardFactory.createTenOfHearts());
-        hand.addCard(CardFactory.createJackOfHearts());
+        hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createQueenOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createTenOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createJackOfSuit(Suit.HEARTS));
         hand.sortHand();
         List<Card> cards = hand.getCards();
         Assert.assertEquals(Rank.TEN, cards.get(0).getRank());
@@ -44,5 +44,19 @@ public class HandShould {
         Assert.assertEquals(Rank.QUEEN, cards.get(2).getRank());
         Assert.assertEquals(Rank.KING, cards.get(3).getRank());
 
+    }
+
+    @Test
+    public void computeRoyalFlushRanking() {
+        Hand hand = HandFactory.createRoyalFlush();
+        HandRanking handRanking = hand.getRanking();
+        Assert.assertEquals(HandRanking.ROYAL_FLUSH, handRanking);
+    }
+
+    @Test
+    public void haveHighCardRankingIfNoOtherRankingExists() {
+        Hand hand = HandFactory.createHighCard();
+        HandRanking handRanking = hand.getRanking();
+        Assert.assertEquals(HandRanking.HIGH_CARD, handRanking);
     }
 }

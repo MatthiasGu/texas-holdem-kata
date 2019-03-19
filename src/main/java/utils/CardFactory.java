@@ -9,39 +9,55 @@ public class CardFactory {
 
     }
 
-    public static Card createAceOfHearts() {
-        return new Card(Suit.HEARTS, Rank.ACE);
+    public static Card createAceOfSuit(Suit suit) {
+        return new Card(suit, Rank.ACE);
     }
 
-    public static Card createKingOfHearts() {
-        return new Card(Suit.HEARTS, Rank.KING);
+    public static Card createKingOfSuit(Suit suit) {
+        return new Card(suit, Rank.KING);
     }
 
-    public static Card createQueenOfHearts() {
-        return new Card(Suit.HEARTS, Rank.QUEEN);
+    public static Card createQueenOfSuit(Suit suit) {
+        return new Card(suit, Rank.QUEEN);
     }
 
-    public static Card createJackOfHearts() {
-        return new Card(Suit.HEARTS, Rank.JACK);
+    public static Card createJackOfSuit(Suit suit) {
+        return new Card(suit, Rank.JACK);
     }
 
-    public static Card createTenOfHearts() {
-        return new Card(Suit.HEARTS, Rank.TEN);
+    public static Card createTenOfSuit(Suit suit) {
+        return new Card(suit, Rank.TEN);
     }
 
-    public static Card createNineOfHearts() {
-        return new Card(Suit.HEARTS, Rank.NINE);
+    public static Card createNineOfSuit(Suit suit) {
+        return new Card(suit, Rank.NINE);
     }
 
-    public static Card createEightOfHearts() {
-        return new Card(Suit.HEARTS, Rank.EIGHT);
+    public static Card createEightOfSuit(Suit suit) {
+        return new Card(suit, Rank.EIGHT);
     }
 
-    public static Card createAceOfSpades() {
-        return new Card(Suit.SPADES, Rank.ACE);
+    public static Card createSevenOfSuit(Suit suit) {
+        return new Card(suit, Rank.SEVEN);
     }
 
-    public static Card createAceOfDiamonds() {
-        return new Card(Suit.DIAMONDS, Rank.ACE);
+    public static Card createSixOfSuit(Suit suit) {
+        return new Card(suit, Rank.SIX);
+    }
+
+    public static Card createFiveOfSuit(Suit suit) {
+        return new Card(suit, Rank.FIVE);
+    }
+
+    public static Card createFourOfSuit(Suit suit) {
+        return new Card(suit, Rank.FOUR);
+    }
+
+    public static Card createThreeOfSuit(Suit suit) {
+        return new Card(suit, Rank.TREY);
+    }
+
+    public static Card createTwoOfSuit(Suit suit) {
+        return new Card(suit, Rank.DEUCE);
     }
 }

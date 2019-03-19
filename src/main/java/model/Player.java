@@ -29,4 +29,8 @@ public class Player {
     public void setHand(List<Card> cards) {
         this.hand = new Hand(cards);
     }
+
+    public HandRanking getHandRanking() {
+        return hand.getRanking();
+    }
 }
