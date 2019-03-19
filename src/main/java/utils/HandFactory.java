@@ -19,6 +19,18 @@ public class HandFactory {
         return hand;
     }
 
+    public static Hand createStraightFlush() {
+        Hand hand = new Hand();
+        hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createQueenOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createJackOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createTenOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createNineOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createEightOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createSevenOfSuit(Suit.HEARTS));
+        return hand;
+    }
+
     public static Hand createHighCard() {
         Hand hand = new Hand();
         hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));

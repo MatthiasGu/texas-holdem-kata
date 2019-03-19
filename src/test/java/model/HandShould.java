@@ -54,6 +54,13 @@ public class HandShould {
     }
 
     @Test
+    public void computeStraightFlushRanking() {
+        Hand hand = HandFactory.createStraightFlush();
+        HandRanking handRanking = hand.getRanking();
+        Assert.assertEquals(HandRanking.STRAIGHT_FLUSH, handRanking);
+    }
+
+    @Test
     public void haveHighCardRankingIfNoOtherRankingExists() {
         Hand hand = HandFactory.createHighCard();
         HandRanking handRanking = hand.getRanking();
