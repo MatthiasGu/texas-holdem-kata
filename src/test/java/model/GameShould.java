@@ -36,11 +36,11 @@ public class GameShould {
     }
 
     @Test
-    public void drawARiverWhenGameStarts() {
+    public void drawCommunityCardsWhenGameStarts() {
         Game game = new Game();
         game.start();
         int deckSize = game.getDeck().getSize();
-        int riverSize = game.getRiver().size();
+        int riverSize = game.getCommunityCards().size();
         Assert.assertEquals(47, deckSize);
         Assert.assertEquals(5, riverSize);
     }
@@ -55,8 +55,24 @@ public class GameShould {
         int player1HandSize = players.get(0).getHand().getSize();
         int player2HandSize = players.get(1).getHand().getSize();
         Assert.assertEquals(43, deckSize);
-        Assert.assertEquals(2, player1HandSize);
-        Assert.assertEquals(2, player2HandSize);
+        Assert.assertEquals(7, player1HandSize);
+        Assert.assertEquals(7, player2HandSize);
+    }
+
+    @Test
+    public void includeCommunityCardsInAllPlayersHands() {
+        int numberOfPlayers = 2;
+        Game game = new Game(numberOfPlayers);
+        game.start();
+        List<Player> players = game.getPlayers();
+        List<Card> communityCards = game.getCommunityCards();
+        Hand player1Hand = players.get(0).getHand();
+        Hand player2Hand = players.get(1).getHand();
+        communityCards.forEach(communityCard -> {
+            Assert.assertEquals(true, player1Hand.containsCard(communityCard));
+            Assert.assertEquals(true, player2Hand.containsCard(communityCard));
+        });
+
     }
 
 }

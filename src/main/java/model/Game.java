@@ -6,7 +6,7 @@ import java.util.List;
 public class Game {
     private List<Player> players;
     private Deck deck;
-    private List<Card> river;
+    private List<Card> communityCards;
 
     public Game() {
         players = new ArrayList<>();
@@ -19,8 +19,9 @@ public class Game {
     }
 
     public void start() {
-        river = deck.drawCards(5);
+        communityCards = deck.drawCards(5);
         drawPlayerHands();
+        addCommunityCardsToAllPlayersHands();
     }
 
     private void drawPlayerHands() {
@@ -29,6 +30,16 @@ public class Game {
             player.setHand(cardsToDraw);
         });
     }
+
+    private void addCommunityCardsToAllPlayersHands() {
+        players.forEach(player -> {
+            Hand currentPlayersHand = player.getHand();
+            communityCards.forEach(communityCard -> {
+                currentPlayersHand.addCard(communityCard);
+            });
+        });
+    }
+
 
     private List<Player> createPlayers(int numberOfPlayers) {
         List<Player> createdPlayers = new ArrayList<>();
@@ -47,8 +58,8 @@ public class Game {
         return deck;
     }
 
-    public List<Card> getRiver() {
-        return river;
+    public List<Card> getCommunityCards() {
+        return communityCards;
     }
 
 }

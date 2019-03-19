@@ -16,11 +16,26 @@ public class Hand {
     }
 
     public List<Card> getCards() {
-        return this.cards;
+        return cards;
     }
 
     public int getSize() {
-        return this.cards.size();
+        return cards.size();
+    }
+
+    public void addCard(Card card) {
+        cards.add(card);
+    }
+
+    public boolean containsCard(Card cardToCheck) {
+        Suit suit = cardToCheck.getSuit();
+        Rank rank = cardToCheck.getRank();
+        for (Card card: cards) {
+            if (card.getRank() == rank && card.getSuit() == suit) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -22,4 +22,10 @@ public class PlayerShould {
         Hand hand = player.getHand();
         Assert.assertEquals(0, hand.getSize());
     }
+
+    @Test
+    public void beAbleToAddCardsToHand() {
+        int playerNumber = 1;
+        Player player = new Player(playerNumber);
+    }
 }
