@@ -7,6 +7,7 @@ public class Game {
     private List<Player> players;
     private Deck deck;
     private List<Card> communityCards;
+    private Player winner;
 
     public Game() {
         players = new ArrayList<>();
@@ -51,6 +52,7 @@ public class Game {
 
     public void end() {
         rankPlayerHands();
+        determineWinner();
     }
 
     private void rankPlayerHands() {
@@ -58,6 +60,17 @@ public class Game {
             Hand currentPlayersHand = player.getHand();
             currentPlayersHand.rankHand();
         });
+    }
+
+    private void determineWinner() {
+        int bestHandRanking = -1;
+        for (Player player : players) {
+            HandRanking currentPlayersRanking = player.getHandRanking();
+            if (currentPlayersRanking.ordinal() > bestHandRanking) {
+                winner = player;
+                bestHandRanking = currentPlayersRanking.ordinal();
+            }
+        }
     }
 
     public List<Player> getPlayers() {
@@ -70,6 +83,10 @@ public class Game {
 
     public List<Card> getCommunityCards() {
         return communityCards;
+    }
+
+    public Player getWinner() {
+        return winner;
     }
 
 }

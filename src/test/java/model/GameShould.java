@@ -2,6 +2,7 @@ package model;
 
 import org.junit.Assert;
 import org.junit.Test;
+import utils.HandFactory;
 
 import java.util.List;
 
@@ -91,7 +92,7 @@ public class GameShould {
     }
 
     @Test
-    public void RankAllPlayersHandsWhenGameEnds() {
+    public void rankAllPlayersHandsWhenGameEnds() {
         int numberOfPlayers = 2;
         Game game = new Game(numberOfPlayers);
         game.start();
@@ -102,6 +103,21 @@ public class GameShould {
         HandRanking player2HandRanking = players.get(1).getHandRanking();
         Assert.assertNotEquals(null, player1HandRanking);
         Assert.assertNotEquals(null, player2HandRanking);
+    }
+
+    @Test
+    public void determineAWinnerWhenGameEnds() {
+        int numberOfPlayers = 2;
+        Game game = new Game(numberOfPlayers);
+        Hand winningHand = HandFactory.createRoyalFlushHand();
+        Hand losingHand = HandFactory.createFullHouseHand();
+        List<Player> players = game.getPlayers();
+        Player winner = players.get(0);
+        Player loser = players.get(1);
+        winner.setHand(winningHand.getCards());
+        loser.setHand(losingHand.getCards());
+        game.end();
+        Assert.assertEquals(winner, game.getWinner());
     }
 
 }
