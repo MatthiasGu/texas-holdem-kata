@@ -22,7 +22,7 @@ public class HandShould {
         hand.addCard(CardFactory.createAceOfSuit(Suit.DIAMONDS));
         hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));
         hand.addCard(CardFactory.createAceOfSuit(Suit.SPADES));
-        hand.sortHand();
+        hand.sortHandBySuit();
         List<Card> cards = hand.getCards();
         Assert.assertEquals(Suit.DIAMONDS, cards.get(0).getSuit());
         Assert.assertEquals(Suit.HEARTS, cards.get(1).getSuit());
@@ -37,7 +37,7 @@ public class HandShould {
         hand.addCard(CardFactory.createQueenOfSuit(Suit.HEARTS));
         hand.addCard(CardFactory.createTenOfSuit(Suit.HEARTS));
         hand.addCard(CardFactory.createJackOfSuit(Suit.HEARTS));
-        hand.sortHand();
+        hand.sortHandBySuit();
         List<Card> cards = hand.getCards();
         Assert.assertEquals(Rank.TEN, cards.get(0).getRank());
         Assert.assertEquals(Rank.JACK, cards.get(1).getRank());
@@ -79,6 +79,13 @@ public class HandShould {
         Hand hand = HandFactory.createFlushHand();
         HandRanking handRanking = hand.getRanking();
         Assert.assertEquals(HandRanking.FLUSH, handRanking);
+    }
+
+    @Test
+    public void computeStraightRanking() {
+        Hand hand = HandFactory.createStraightHand();
+        HandRanking handRanking = hand.getRanking();
+        Assert.assertEquals(HandRanking.STRAIGHT, handRanking);
     }
 
     @Test

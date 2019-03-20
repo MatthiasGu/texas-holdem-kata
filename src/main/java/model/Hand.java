@@ -50,8 +50,12 @@ public class Hand {
         return computeRanking();
     }
 
-    public void sortHand() {
-        cards.sort(Card::compareTo);
+    public void sortHandBySuit() {
+        cards.sort(Card.suitOrder);
+    }
+
+    public void sortHandByRank() {
+        cards.sort(Card.rankOrder);
     }
 
     private HandRanking computeRanking() {
@@ -65,6 +69,8 @@ public class Hand {
             return HandRanking.FULL_HOUSE;
         } else if (handContainsFlush()) {
             return HandRanking.FLUSH;
+        } else if (handContainsStraight()) {
+            return HandRanking.STRAIGHT;
         }
         return HandRanking.HIGH_CARD;
     }
@@ -86,7 +92,7 @@ public class Hand {
     private boolean handContainsStraightFlush() {
         if (handContainsFlush()) {
             Suit mostFrequentSuit = getMostFrequentSuitInHand();
-            sortHand();
+            sortHandBySuit();
             Card previousCardInSequence = cards.get(0);
             int numberOfConsecutiveStraightCards = 1;
             for (int i = 1; i < getSize(); i++) {
@@ -127,6 +133,25 @@ public class Hand {
         Map<Suit, Integer> numberOfCardsOfEachSuitInHand = computeNumberOfCardsOfEachSuitInHand();
         Suit mostFrequentSuit = getMostFrequentSuitInHand();
         return numberOfCardsOfEachSuitInHand.get(mostFrequentSuit) >= 5;
+    }
+
+    private boolean handContainsStraight() {
+        sortHandByRank();
+        Card previousCardInSequence = cards.get(0);
+        int numberOfConsecutiveStraightCards = 1;
+        for (int i = 1; i < getSize(); i++) {
+            Card currentCardInSequence = cards.get(i);
+            if (twoSortedCardsAdjacentInRank(previousCardInSequence, currentCardInSequence)) {
+                numberOfConsecutiveStraightCards++;
+            } else {
+                numberOfConsecutiveStraightCards = 1;
+            }
+            if (numberOfConsecutiveStraightCards == 5) {
+                return true;
+            }
+            previousCardInSequence = currentCardInSequence;
+        }
+        return false;
     }
 
     private Suit getMostFrequentSuitInHand() {

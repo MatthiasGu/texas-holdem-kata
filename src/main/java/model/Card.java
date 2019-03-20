@@ -1,6 +1,8 @@
 package model;
 
-public class Card implements Comparable<Card>{
+import java.util.Comparator;
+
+public class Card {
 
     private Suit suit;
     private Rank rank;
@@ -22,13 +24,22 @@ public class Card implements Comparable<Card>{
         return rank.getSymbol() + " of " + suit.toString();
     }
 
-    @Override
-    public int compareTo(Card card) {
-        int compareSuits = Integer.compare(this.suit.ordinal(), card.suit.ordinal());
+    public static final Comparator<Card> suitOrder = (Card card1, Card card2) -> {
+        int compareSuits = Integer.compare(card1.suit.ordinal(), card2.suit.ordinal());
         if (compareSuits == 0) {
-            return Integer.compare(this.rank.ordinal(), card.rank.ordinal());
+            return Integer.compare(card1.rank.ordinal(), card2.rank.ordinal());
         } else {
             return compareSuits;
         }
-    }
+    };
+
+    public static final Comparator<Card> rankOrder = (Card card1, Card card2) -> {
+        int compareRanks = Integer.compare(card1.rank.ordinal(), card2.rank.ordinal());
+        if (compareRanks == 0) {
+            return Integer.compare(card1.suit.ordinal(), card2.suit.ordinal());
+        } else {
+            return compareRanks;
+        }
+    };
+
 }

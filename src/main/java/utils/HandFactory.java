@@ -84,6 +84,21 @@ public class HandFactory {
     }
 
     /**
+     * Creates a {@link Hand} containing a Straight (5 consecutive cards of any suit, e.g. Q, K, A, 2, 3).
+     */
+    public static Hand createStraightHand() {
+        Hand hand = new Hand();
+        hand.addCard(CardFactory.createKingOfSuit(Suit.CLUBS));
+        hand.addCard(CardFactory.createQueenOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createJackOfSuit(Suit.DIAMONDS));
+        hand.addCard(CardFactory.createTenOfSuit(Suit.SPADES));
+        hand.addCard(CardFactory.createNineOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createFourOfSuit(Suit.CLUBS));
+        hand.addCard(CardFactory.createSevenOfSuit(Suit.HEARTS));
+        return hand;
+    }
+
+    /**
      * Creates a {@link Hand} containing no card combinations that can produce a ranking.
      */
     public static Hand createHighCardHand() {
