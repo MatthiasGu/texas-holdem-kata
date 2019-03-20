@@ -31,6 +31,18 @@ public class HandFactory {
         return hand;
     }
 
+    public static Hand createFourOfAKind() {
+        Hand hand = new Hand();
+        hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createKingOfSuit(Suit.SPADES));
+        hand.addCard(CardFactory.createKingOfSuit(Suit.DIAMONDS));
+        hand.addCard(CardFactory.createKingOfSuit(Suit.CLUBS));
+        hand.addCard(CardFactory.createNineOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createEightOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createSevenOfSuit(Suit.HEARTS));
+        return hand;
+    }
+
     public static Hand createHighCard() {
         Hand hand = new Hand();
         hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));

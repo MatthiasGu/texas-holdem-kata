@@ -59,41 +59,48 @@ public class Hand {
             return HandRanking.ROYAL_FLUSH;
         } else if (handContainsStraightFlush()) {
             return HandRanking.STRAIGHT_FLUSH;
+        } else if (handContainsFourOfAKind()) {
+            return HandRanking.FOUR_OF_A_KIND;
         }
         return HandRanking.HIGH_CARD;
     }
 
     private boolean handContainsRoyalFlush() {
-        Suit mostFrequentSuit = getMostFrequentSuitInHand();
-        List<Card> cardsRequired = Arrays.asList(
-                new Card(mostFrequentSuit, Rank.TEN),
-                new Card(mostFrequentSuit, Rank.JACK),
-                new Card(mostFrequentSuit, Rank.QUEEN),
-                new Card(mostFrequentSuit, Rank.KING),
-                new Card(mostFrequentSuit, Rank.ACE));
-        return containsAllCards(cardsRequired);
+        if (handContainsStraightFlush()) {
+            Suit mostFrequentSuit = getMostFrequentSuitInHand();
+            List<Card> cardsRequired = Arrays.asList(
+                    new Card(mostFrequentSuit, Rank.TEN),
+                    new Card(mostFrequentSuit, Rank.JACK),
+                    new Card(mostFrequentSuit, Rank.QUEEN),
+                    new Card(mostFrequentSuit, Rank.KING),
+                    new Card(mostFrequentSuit, Rank.ACE));
+            return containsAllCards(cardsRequired);
+        }
+        return false;
     }
 
     private boolean handContainsStraightFlush() {
-        Suit mostFrequentSuit = getMostFrequentSuitInHand();
-        sortHand();
-        Card previousCardInSequence = cards.get(0);
-        int numberOfConsecutiveStraightCards = 1;
-        for (int i = 1; i < getSize(); i++) {
-            Card currentCardInSequence = cards.get(i);
-            if (currentCardInSequence.getSuit() == mostFrequentSuit) {
-                if (twoSortedCardsAdjacentInRank(previousCardInSequence, currentCardInSequence)) {
-                    numberOfConsecutiveStraightCards++;
+        if (handContainsFlush()) {
+            Suit mostFrequentSuit = getMostFrequentSuitInHand();
+            sortHand();
+            Card previousCardInSequence = cards.get(0);
+            int numberOfConsecutiveStraightCards = 1;
+            for (int i = 1; i < getSize(); i++) {
+                Card currentCardInSequence = cards.get(i);
+                if (currentCardInSequence.getSuit() == mostFrequentSuit) {
+                    if (twoSortedCardsAdjacentInRank(previousCardInSequence, currentCardInSequence)) {
+                        numberOfConsecutiveStraightCards++;
+                    } else {
+                        numberOfConsecutiveStraightCards = 0;
+                    }
                 } else {
                     numberOfConsecutiveStraightCards = 0;
                 }
-            } else {
-                numberOfConsecutiveStraightCards = 0;
+                if (numberOfConsecutiveStraightCards == 5) {
+                    return true;
+                }
+                previousCardInSequence = currentCardInSequence;
             }
-            if (numberOfConsecutiveStraightCards == 5) {
-                return true;
-            }
-            previousCardInSequence = currentCardInSequence;
         }
         return false;
     }
@@ -102,6 +109,10 @@ public class Hand {
     private boolean twoSortedCardsAdjacentInRank(Card card1, Card card2) {
         return ((card2.getRank().ordinal() == card1.getRank().ordinal() + 1) ||
                 (card1.getRank() == Rank.ACE && card2.getRank() == Rank.DEUCE));
+    }
+
+    private boolean handContainsFourOfAKind() {
+        return computerNumberOfCardsOfEachRankInHand().containsValue(4);
     }
 
     private boolean handContainsFlush() {
@@ -122,6 +133,19 @@ public class Hand {
             }
         }
         return mostFrequentSuit;
+    }
+
+    private Map<Rank, Integer> computerNumberOfCardsOfEachRankInHand() {
+        Map<Rank, Integer> numberOfCardsOfEachRankInHand = new HashMap<>();
+        cards.forEach(card -> {
+            Rank rank = card.getRank();
+            if (numberOfCardsOfEachRankInHand.containsKey(rank)) {
+                numberOfCardsOfEachRankInHand.put(rank, numberOfCardsOfEachRankInHand.get(rank) + 1);
+            } else {
+                numberOfCardsOfEachRankInHand.put(rank, 1);
+            }
+        });
+        return numberOfCardsOfEachRankInHand;
     }
 
     private Map<Suit, Integer> computeNumberOfCardsOfEachSuitInHand() {

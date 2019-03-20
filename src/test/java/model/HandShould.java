@@ -61,6 +61,13 @@ public class HandShould {
     }
 
     @Test
+    public void computeFourOfAKindRanking() {
+        Hand hand = HandFactory.createFourOfAKind();
+        HandRanking handRanking = hand.getRanking();
+        Assert.assertEquals(HandRanking.FOUR_OF_A_KIND, handRanking);
+    }
+
+    @Test
     public void haveHighCardRankingIfNoOtherRankingExists() {
         Hand hand = HandFactory.createHighCard();
         HandRanking handRanking = hand.getRanking();
