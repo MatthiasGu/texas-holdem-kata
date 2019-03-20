@@ -75,6 +75,8 @@ public class Hand {
             return HandRanking.THREE_OF_A_KIND;
         } else if (handContainsTwoPair()) {
             return HandRanking.TWO_PAIR;
+        } else if (handContainsOnePair()) {
+            return HandRanking.ONE_PAIR;
         }
         return HandRanking.HIGH_CARD;
     }
@@ -164,6 +166,10 @@ public class Hand {
 
     private boolean handContainsTwoPair() {
         return computeNumberOfCardsOfEachRankInHand().values().stream().filter(val -> val == 2).toArray().length == 2;
+    }
+
+    private boolean handContainsOnePair() {
+        return computeNumberOfCardsOfEachRankInHand().containsValue(2);
     }
 
     private Suit getMostFrequentSuitInHand() {

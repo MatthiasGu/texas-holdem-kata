@@ -129,6 +129,21 @@ public class HandFactory {
     }
 
     /**
+     * Creates a {@link Hand} containing one Pair (Two cards of the same rank).
+     */
+    public static Hand createOnePairHand() {
+        Hand hand = new Hand();
+        hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createKingOfSuit(Suit.SPADES));
+        hand.addCard(CardFactory.createQueenOfSuit(Suit.DIAMONDS));
+        hand.addCard(CardFactory.createJackOfSuit(Suit.CLUBS));
+        hand.addCard(CardFactory.createNineOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createEightOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createSevenOfSuit(Suit.HEARTS));
+        return hand;
+    }
+
+    /**
      * Creates a {@link Hand} containing no card combinations that can produce a ranking.
      */
     public static Hand createHighCardHand() {
