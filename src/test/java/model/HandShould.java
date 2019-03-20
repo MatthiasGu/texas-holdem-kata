@@ -96,6 +96,13 @@ public class HandShould {
     }
 
     @Test
+    public void computeTwoPairRanking() {
+        Hand hand = HandFactory.createTwoPairHand();
+        HandRanking handRanking = hand.getRanking();
+        Assert.assertEquals(HandRanking.TWO_PAIR, handRanking);
+    }
+
+    @Test
     public void haveHighCardRankingIfNoOtherRankingExists() {
         Hand hand = HandFactory.createHighCardHand();
         HandRanking handRanking = hand.getRanking();
