@@ -69,9 +69,16 @@ public class HandShould {
 
     @Test
     public void computeFullHouseRanking() {
-        Hand hand = HandFactory.createFullHouse();
+        Hand hand = HandFactory.createFullHouseHand();
         HandRanking handRanking = hand.getRanking();
         Assert.assertEquals(HandRanking.FULL_HOUSE, handRanking);
+    }
+
+    @Test
+    public void computeFlushRanking() {
+        Hand hand = HandFactory.createFlushHand();
+        HandRanking handRanking = hand.getRanking();
+        Assert.assertEquals(HandRanking.FLUSH, handRanking);
     }
 
     @Test

@@ -63,6 +63,8 @@ public class Hand {
             return HandRanking.FOUR_OF_A_KIND;
         } else if (handContainsFullHouse()) {
             return HandRanking.FULL_HOUSE;
+        } else if (handContainsFlush()) {
+            return HandRanking.FLUSH;
         }
         return HandRanking.HIGH_CARD;
     }
@@ -120,8 +122,6 @@ public class Hand {
         return ((card2.getRank().ordinal() == card1.getRank().ordinal() + 1) ||
                 (card1.getRank() == Rank.ACE && card2.getRank() == Rank.DEUCE));
     }
-
-
 
     private boolean handContainsFlush() {
         Map<Suit, Integer> numberOfCardsOfEachSuitInHand = computeNumberOfCardsOfEachSuitInHand();

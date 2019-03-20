@@ -18,7 +18,7 @@ public class HandFactory {
         hand.addCard(CardFactory.createQueenOfSuit(Suit.HEARTS));
         hand.addCard(CardFactory.createJackOfSuit(Suit.HEARTS));
         hand.addCard(CardFactory.createTenOfSuit(Suit.HEARTS));
-        hand.addCard(CardFactory.createNineOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createNineOfSuit(Suit.CLUBS));
         hand.addCard(CardFactory.createEightOfSuit(Suit.HEARTS));
         return hand;
     }
@@ -56,7 +56,7 @@ public class HandFactory {
     /**
      * Creates a {@link Hand} containing a Full House(Three of a Kind + Pair).
      */
-    public static Hand createFullHouse() {
+    public static Hand createFullHouseHand() {
         Hand hand = new Hand();
         hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));
         hand.addCard(CardFactory.createKingOfSuit(Suit.SPADES));
@@ -64,6 +64,21 @@ public class HandFactory {
         hand.addCard(CardFactory.createQueenOfSuit(Suit.CLUBS));
         hand.addCard(CardFactory.createQueenOfSuit(Suit.HEARTS));
         hand.addCard(CardFactory.createEightOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createSevenOfSuit(Suit.HEARTS));
+        return hand;
+    }
+
+    /**
+     * Creates a {@link Hand} containing a Flush (5 cards of the same suit).
+     */
+    public static Hand createFlushHand() {
+        Hand hand = new Hand();
+        hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createQueenOfSuit(Suit.CLUBS));
+        hand.addCard(CardFactory.createJackOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createTenOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createNineOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createEightOfSuit(Suit.CLUBS));
         hand.addCard(CardFactory.createSevenOfSuit(Suit.HEARTS));
         return hand;
     }
