@@ -89,6 +89,13 @@ public class HandShould {
     }
 
     @Test
+    public void computeThreeOfAKindRanking() {
+        Hand hand = HandFactory.createThreeOfAKindHand();
+        HandRanking handRanking = hand.getRanking();
+        Assert.assertEquals(HandRanking.THREE_OF_A_KIND, handRanking);
+    }
+
+    @Test
     public void haveHighCardRankingIfNoOtherRankingExists() {
         Hand hand = HandFactory.createHighCardHand();
         HandRanking handRanking = hand.getRanking();

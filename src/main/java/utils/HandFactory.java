@@ -39,7 +39,7 @@ public class HandFactory {
     }
 
     /**
-     * Creates a {@link Hand} containing a Four of a Kind (Four cards of the same rank).
+     * Creates a {@link Hand} containing Four of a Kind (Four cards of the same rank).
      */
     public static Hand createFourOfAKindHand() {
         Hand hand = new Hand();
@@ -94,6 +94,21 @@ public class HandFactory {
         hand.addCard(CardFactory.createTenOfSuit(Suit.SPADES));
         hand.addCard(CardFactory.createNineOfSuit(Suit.HEARTS));
         hand.addCard(CardFactory.createFourOfSuit(Suit.CLUBS));
+        hand.addCard(CardFactory.createSevenOfSuit(Suit.HEARTS));
+        return hand;
+    }
+
+    /**
+     * Creates a {@link Hand} containing Three of a Kind (Three cards of the same rank).
+     */
+    public static Hand createThreeOfAKindHand() {
+        Hand hand = new Hand();
+        hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createKingOfSuit(Suit.SPADES));
+        hand.addCard(CardFactory.createKingOfSuit(Suit.DIAMONDS));
+        hand.addCard(CardFactory.createQueenOfSuit(Suit.CLUBS));
+        hand.addCard(CardFactory.createNineOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createEightOfSuit(Suit.HEARTS));
         hand.addCard(CardFactory.createSevenOfSuit(Suit.HEARTS));
         return hand;
     }

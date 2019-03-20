@@ -71,6 +71,8 @@ public class Hand {
             return HandRanking.FLUSH;
         } else if (handContainsStraight()) {
             return HandRanking.STRAIGHT;
+        } else if (handContainsThreeOfAKind()) {
+            return HandRanking.THREE_OF_A_KIND;
         }
         return HandRanking.HIGH_CARD;
     }
@@ -121,7 +123,7 @@ public class Hand {
 
     private boolean handContainsFullHouse() {
         Map<Rank, Integer> numberOfCardsOfEachRankInHand = computeNumberOfCardsOfEachRankInHand();
-        return numberOfCardsOfEachRankInHand.containsValue(3) && numberOfCardsOfEachRankInHand.containsValue(2);
+        return handContainsThreeOfAKind() && numberOfCardsOfEachRankInHand.containsValue(2);
     }
 
     private boolean twoSortedCardsAdjacentInRank(Card card1, Card card2) {
@@ -152,6 +154,10 @@ public class Hand {
             previousCardInSequence = currentCardInSequence;
         }
         return false;
+    }
+
+    private boolean handContainsThreeOfAKind() {
+        return computeNumberOfCardsOfEachRankInHand().containsValue(3);
     }
 
     private Suit getMostFrequentSuitInHand() {
