@@ -61,6 +61,8 @@ public class Hand {
             return HandRanking.STRAIGHT_FLUSH;
         } else if (handContainsFourOfAKind()) {
             return HandRanking.FOUR_OF_A_KIND;
+        } else if (handContainsFullHouse()) {
+            return HandRanking.FULL_HOUSE;
         }
         return HandRanking.HIGH_CARD;
     }
@@ -91,10 +93,10 @@ public class Hand {
                     if (twoSortedCardsAdjacentInRank(previousCardInSequence, currentCardInSequence)) {
                         numberOfConsecutiveStraightCards++;
                     } else {
-                        numberOfConsecutiveStraightCards = 0;
+                        numberOfConsecutiveStraightCards = 1;
                     }
                 } else {
-                    numberOfConsecutiveStraightCards = 0;
+                    numberOfConsecutiveStraightCards = 1;
                 }
                 if (numberOfConsecutiveStraightCards == 5) {
                     return true;
@@ -105,15 +107,21 @@ public class Hand {
         return false;
     }
 
+    private boolean handContainsFourOfAKind() {
+        return computeNumberOfCardsOfEachRankInHand().containsValue(4);
+    }
+
+    private boolean handContainsFullHouse() {
+        Map<Rank, Integer> numberOfCardsOfEachRankInHand = computeNumberOfCardsOfEachRankInHand();
+        return numberOfCardsOfEachRankInHand.containsValue(3) && numberOfCardsOfEachRankInHand.containsValue(2);
+    }
 
     private boolean twoSortedCardsAdjacentInRank(Card card1, Card card2) {
         return ((card2.getRank().ordinal() == card1.getRank().ordinal() + 1) ||
                 (card1.getRank() == Rank.ACE && card2.getRank() == Rank.DEUCE));
     }
 
-    private boolean handContainsFourOfAKind() {
-        return computerNumberOfCardsOfEachRankInHand().containsValue(4);
-    }
+
 
     private boolean handContainsFlush() {
         Map<Suit, Integer> numberOfCardsOfEachSuitInHand = computeNumberOfCardsOfEachSuitInHand();
@@ -135,7 +143,7 @@ public class Hand {
         return mostFrequentSuit;
     }
 
-    private Map<Rank, Integer> computerNumberOfCardsOfEachRankInHand() {
+    private Map<Rank, Integer> computeNumberOfCardsOfEachRankInHand() {
         Map<Rank, Integer> numberOfCardsOfEachRankInHand = new HashMap<>();
         cards.forEach(card -> {
             Rank rank = card.getRank();

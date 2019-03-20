@@ -54,9 +54,23 @@ public class HandFactory {
     }
 
     /**
+     * Creates a {@link Hand} containing a Full House(Three of a Kind + Pair).
+     */
+    public static Hand createFullHouse() {
+        Hand hand = new Hand();
+        hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createKingOfSuit(Suit.SPADES));
+        hand.addCard(CardFactory.createKingOfSuit(Suit.DIAMONDS));
+        hand.addCard(CardFactory.createQueenOfSuit(Suit.CLUBS));
+        hand.addCard(CardFactory.createQueenOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createEightOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createSevenOfSuit(Suit.HEARTS));
+        return hand;
+    }
+
+    /**
      * Creates a {@link Hand} containing no card combinations that can produce a ranking.
      */
-
     public static Hand createHighCardHand() {
         Hand hand = new Hand();
         hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));
