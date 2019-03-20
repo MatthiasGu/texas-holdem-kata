@@ -48,28 +48,35 @@ public class HandShould {
 
     @Test
     public void computeRoyalFlushRanking() {
-        Hand hand = HandFactory.createRoyalFlush();
+        Hand hand = HandFactory.createRoyalFlushHand();
         HandRanking handRanking = hand.getRanking();
         Assert.assertEquals(HandRanking.ROYAL_FLUSH, handRanking);
     }
 
     @Test
     public void computeStraightFlushRanking() {
-        Hand hand = HandFactory.createStraightFlush();
+        Hand hand = HandFactory.createStraightFlushHand();
         HandRanking handRanking = hand.getRanking();
         Assert.assertEquals(HandRanking.STRAIGHT_FLUSH, handRanking);
     }
 
     @Test
     public void computeFourOfAKindRanking() {
-        Hand hand = HandFactory.createFourOfAKind();
+        Hand hand = HandFactory.createFourOfAKindHand();
         HandRanking handRanking = hand.getRanking();
         Assert.assertEquals(HandRanking.FOUR_OF_A_KIND, handRanking);
     }
 
     @Test
+    public void computeFullHouseRanking() {
+        Hand hand = HandFactory.createFullHouse();
+        HandRanking handRanking = hand.getRanking();
+        Assert.assertEquals(HandRanking.FULL_HOUSE, handRanking);
+    }
+
+    @Test
     public void haveHighCardRankingIfNoOtherRankingExists() {
-        Hand hand = HandFactory.createHighCard();
+        Hand hand = HandFactory.createHighCardHand();
         HandRanking handRanking = hand.getRanking();
         Assert.assertEquals(HandRanking.HIGH_CARD, handRanking);
     }

@@ -7,7 +7,11 @@ public class HandFactory {
     public HandFactory() {
 
     }
-    public static Hand createRoyalFlush() {
+
+    /**
+     * Creates a {@link Hand} containing a Royal Flush (10, J, Q, K, A of the same suit).
+     */
+    public static Hand createRoyalFlushHand() {
         Hand hand = new Hand();
         hand.addCard(CardFactory.createAceOfSuit(Suit.HEARTS));
         hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));
@@ -19,19 +23,25 @@ public class HandFactory {
         return hand;
     }
 
-    public static Hand createStraightFlush() {
+    /**
+     * Creates a {@link Hand} containing a Straight Flush (5 consecutive cards of the same suit, e.g. Q, K, A, 2, 3).
+     */
+    public static Hand createStraightFlushHand() {
         Hand hand = new Hand();
         hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));
         hand.addCard(CardFactory.createQueenOfSuit(Suit.HEARTS));
         hand.addCard(CardFactory.createJackOfSuit(Suit.HEARTS));
         hand.addCard(CardFactory.createTenOfSuit(Suit.HEARTS));
         hand.addCard(CardFactory.createNineOfSuit(Suit.HEARTS));
-        hand.addCard(CardFactory.createEightOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createEightOfSuit(Suit.CLUBS));
         hand.addCard(CardFactory.createSevenOfSuit(Suit.HEARTS));
         return hand;
     }
 
-    public static Hand createFourOfAKind() {
+    /**
+     * Creates a {@link Hand} containing a Four of a Kind (Four cards of the same rank).
+     */
+    public static Hand createFourOfAKindHand() {
         Hand hand = new Hand();
         hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));
         hand.addCard(CardFactory.createKingOfSuit(Suit.SPADES));
@@ -43,7 +53,11 @@ public class HandFactory {
         return hand;
     }
 
-    public static Hand createHighCard() {
+    /**
+     * Creates a {@link Hand} containing no card combinations that can produce a ranking.
+     */
+
+    public static Hand createHighCardHand() {
         Hand hand = new Hand();
         hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));
         hand.addCard(CardFactory.createJackOfSuit(Suit.SPADES));
