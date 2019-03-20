@@ -60,6 +60,22 @@ public class GameShould {
     }
 
     @Test
+    public void notIncludeNonCommunityCardsFromOnePlayerInOtherPlayersHands() {
+        int numberOfPlayers = 20;
+        Game game = new Game (numberOfPlayers);
+        game.start();
+        List<Player> players = game.getPlayers();
+        for (int i = 0; i < numberOfPlayers; i++) {
+            Hand currentPlayersHand = players.get(i).getHand();
+            List<Card> currentPlayersCardsInHand = currentPlayersHand.getCards().subList(0, 2);
+            for (int j = i + 1; j < numberOfPlayers; j++) {
+                Assert.assertEquals(false, players.get(j).getHand().containsAnyCard(currentPlayersCardsInHand));
+            }
+        }
+
+    }
+
+    @Test
     public void includeCommunityCardsInAllPlayersHands() {
         int numberOfPlayers = 2;
         Game game = new Game(numberOfPlayers);

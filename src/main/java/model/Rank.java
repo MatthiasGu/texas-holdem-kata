@@ -17,7 +17,7 @@ public enum Rank {
 
     private char symbol;
 
-    private Rank(char symbol) {
+    Rank(char symbol) {
         this.symbol = symbol;
     }
 

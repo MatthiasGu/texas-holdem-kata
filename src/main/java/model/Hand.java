@@ -47,6 +47,15 @@ public class Hand {
         return true;
     }
 
+    public boolean containsAnyCard(List<Card> cardsToCheck) {
+        for (Card card: cardsToCheck) {
+            if (containsCard(card)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void rankHand() {
         handRanking = computeHandRanking();
     }
