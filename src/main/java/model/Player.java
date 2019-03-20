@@ -31,6 +31,6 @@ public class Player {
     }
 
     public HandRanking getHandRanking() {
-        return hand.getRanking();
+        return hand.getHandRanking();
     }
 }

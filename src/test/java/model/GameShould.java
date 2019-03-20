@@ -72,7 +72,20 @@ public class GameShould {
             Assert.assertEquals(true, player1Hand.containsCard(communityCard));
             Assert.assertEquals(true, player2Hand.containsCard(communityCard));
         });
+    }
 
+    @Test
+    public void RankAllPlayersHandsWhenGameEnds() {
+        int numberOfPlayers = 2;
+        Game game = new Game(numberOfPlayers);
+        game.start();
+        game.end();
+        List<Player> players = game.getPlayers();
+        HandRanking player1HandRanking = players.get(0).getHandRanking();
+        System.out.println(player1HandRanking);
+        HandRanking player2HandRanking = players.get(1).getHandRanking();
+        Assert.assertNotEquals(null, player1HandRanking);
+        Assert.assertNotEquals(null, player2HandRanking);
     }
 
 }

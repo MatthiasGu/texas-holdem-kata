@@ -5,6 +5,7 @@ import java.util.*;
 public class Hand {
 
     private List<Card> cards;
+    private HandRanking handRanking;
 
     public Hand() {
         this.cards = new ArrayList<>();
@@ -46,8 +47,12 @@ public class Hand {
         return true;
     }
 
-    public HandRanking getRanking() {
-        return computeRanking();
+    public void rankHand() {
+        handRanking = computeHandRanking();
+    }
+
+    public HandRanking getHandRanking() {
+        return handRanking;
     }
 
     public void sortHandBySuit() {
@@ -58,7 +63,7 @@ public class Hand {
         cards.sort(Card.rankOrder);
     }
 
-    private HandRanking computeRanking() {
+    private HandRanking computeHandRanking() {
         if (handContainsRoyalFlush()) {
             return HandRanking.ROYAL_FLUSH;
         } else if (handContainsStraightFlush()) {
@@ -121,18 +126,17 @@ public class Hand {
         return false;
     }
 
+    private boolean twoSortedCardsAdjacentInRank(Card card1, Card card2) {
+        return ((card2.getRank().ordinal() == card1.getRank().ordinal() + 1) ||
+                (card1.getRank() == Rank.ACE && card2.getRank() == Rank.DEUCE));
+    }
+
     private boolean handContainsFourOfAKind() {
         return computeNumberOfCardsOfEachRankInHand().containsValue(4);
     }
 
     private boolean handContainsFullHouse() {
-        Map<Rank, Integer> numberOfCardsOfEachRankInHand = computeNumberOfCardsOfEachRankInHand();
-        return handContainsThreeOfAKind() && numberOfCardsOfEachRankInHand.containsValue(2);
-    }
-
-    private boolean twoSortedCardsAdjacentInRank(Card card1, Card card2) {
-        return ((card2.getRank().ordinal() == card1.getRank().ordinal() + 1) ||
-                (card1.getRank() == Rank.ACE && card2.getRank() == Rank.DEUCE));
+        return handContainsThreeOfAKind() && handContainsOnePair();
     }
 
     private boolean handContainsFlush() {

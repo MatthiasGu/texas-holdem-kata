@@ -18,6 +18,15 @@ public class Game {
         deck = new Deck();
     }
 
+    private List<Player> createPlayers(int numberOfPlayers) {
+        List<Player> createdPlayers = new ArrayList<>();
+        for (int i = 1; i <= numberOfPlayers; i++) {
+            Player player = new Player(i);
+            createdPlayers.add(player);
+        }
+        return createdPlayers;
+    }
+
     public void start() {
         communityCards = deck.drawCards(5);
         drawPlayerHands();
@@ -40,14 +49,15 @@ public class Game {
         });
     }
 
+    public void end() {
+        rankPlayerHands();
+    }
 
-    private List<Player> createPlayers(int numberOfPlayers) {
-        List<Player> createdPlayers = new ArrayList<>();
-        for (int i = 1; i <= numberOfPlayers; i++) {
-            Player player = new Player(i);
-            createdPlayers.add(player);
-        }
-        return createdPlayers;
+    private void rankPlayerHands() {
+        players.forEach(player -> {
+            Hand currentPlayersHand = player.getHand();
+            currentPlayersHand.rankHand();
+        });
     }
 
     public List<Player> getPlayers() {

@@ -49,70 +49,80 @@ public class HandShould {
     @Test
     public void computeRoyalFlushRanking() {
         Hand hand = HandFactory.createRoyalFlushHand();
-        HandRanking handRanking = hand.getRanking();
+        hand.rankHand();
+        HandRanking handRanking = hand.getHandRanking();
         Assert.assertEquals(HandRanking.ROYAL_FLUSH, handRanking);
     }
 
     @Test
     public void computeStraightFlushRanking() {
         Hand hand = HandFactory.createStraightFlushHand();
-        HandRanking handRanking = hand.getRanking();
+        hand.rankHand();
+        HandRanking handRanking = hand.getHandRanking();
         Assert.assertEquals(HandRanking.STRAIGHT_FLUSH, handRanking);
     }
 
     @Test
     public void computeFourOfAKindRanking() {
         Hand hand = HandFactory.createFourOfAKindHand();
-        HandRanking handRanking = hand.getRanking();
+        hand.rankHand();
+        HandRanking handRanking = hand.getHandRanking();
         Assert.assertEquals(HandRanking.FOUR_OF_A_KIND, handRanking);
     }
 
     @Test
     public void computeFullHouseRanking() {
         Hand hand = HandFactory.createFullHouseHand();
-        HandRanking handRanking = hand.getRanking();
+        hand.rankHand();
+        HandRanking handRanking = hand.getHandRanking();
         Assert.assertEquals(HandRanking.FULL_HOUSE, handRanking);
     }
 
     @Test
     public void computeFlushRanking() {
         Hand hand = HandFactory.createFlushHand();
-        HandRanking handRanking = hand.getRanking();
+        hand.rankHand();
+        HandRanking handRanking = hand.getHandRanking();
         Assert.assertEquals(HandRanking.FLUSH, handRanking);
     }
 
     @Test
     public void computeStraightRanking() {
         Hand hand = HandFactory.createStraightHand();
-        HandRanking handRanking = hand.getRanking();
+        hand.rankHand();
+        HandRanking handRanking = hand.getHandRanking();
         Assert.assertEquals(HandRanking.STRAIGHT, handRanking);
     }
 
     @Test
     public void computeThreeOfAKindRanking() {
         Hand hand = HandFactory.createThreeOfAKindHand();
-        HandRanking handRanking = hand.getRanking();
+        hand.rankHand();
+        HandRanking handRanking = hand.getHandRanking();
         Assert.assertEquals(HandRanking.THREE_OF_A_KIND, handRanking);
     }
 
     @Test
     public void computeTwoPairRanking() {
         Hand hand = HandFactory.createTwoPairHand();
-        HandRanking handRanking = hand.getRanking();
+        hand.rankHand();
+        HandRanking handRanking = hand.getHandRanking();
         Assert.assertEquals(HandRanking.TWO_PAIR, handRanking);
     }
 
     @Test
     public void computeOnePairRanking() {
         Hand hand = HandFactory.createOnePairHand();
-        HandRanking handRanking = hand.getRanking();
+        hand.rankHand();
+        HandRanking handRanking = hand.getHandRanking();
         Assert.assertEquals(HandRanking.ONE_PAIR, handRanking);
     }
 
     @Test
     public void haveHighCardRankingIfNoOtherRankingExists() {
         Hand hand = HandFactory.createHighCardHand();
-        HandRanking handRanking = hand.getRanking();
+        hand.rankHand();
+        HandRanking handRanking = hand.getHandRanking();
         Assert.assertEquals(HandRanking.HIGH_CARD, handRanking);
     }
 }
