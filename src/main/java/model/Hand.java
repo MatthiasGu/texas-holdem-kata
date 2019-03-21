@@ -1,6 +1,7 @@
 package model;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Hand {
 
@@ -72,67 +73,116 @@ public class Hand {
         cards.sort(Card.rankOrder);
     }
 
-    private HandRanking computeHandRanking() {
-        if (handContainsRoyalFlush()) {
-            return HandRanking.ROYAL_FLUSH;
-        } else if (handContainsStraightFlush()) {
-            return HandRanking.STRAIGHT_FLUSH;
-        } else if (handContainsFourOfAKind()) {
-            return HandRanking.FOUR_OF_A_KIND;
-        } else if (handContainsFullHouse()) {
-            return HandRanking.FULL_HOUSE;
-        } else if (handContainsFlush()) {
-            return HandRanking.FLUSH;
-        } else if (handContainsStraight()) {
-            return HandRanking.STRAIGHT;
-        } else if (handContainsThreeOfAKind()) {
-            return HandRanking.THREE_OF_A_KIND;
-        } else if (handContainsTwoPair()) {
-            return HandRanking.TWO_PAIR;
-        } else if (handContainsOnePair()) {
-            return HandRanking.ONE_PAIR;
-        }
-        return HandRanking.HIGH_CARD;
-    }
-
-    private boolean handContainsRoyalFlush() {
-        if (handContainsStraightFlush()) {
-            Suit mostFrequentSuit = getMostFrequentSuitInHand();
-            List<Card> cardsRequired = Arrays.asList(
-                    new Card(mostFrequentSuit, Rank.TEN),
-                    new Card(mostFrequentSuit, Rank.JACK),
-                    new Card(mostFrequentSuit, Rank.QUEEN),
-                    new Card(mostFrequentSuit, Rank.KING),
-                    new Card(mostFrequentSuit, Rank.ACE));
-            return containsAllCards(cardsRequired);
-        }
-        return false;
-    }
-
-    private boolean handContainsStraightFlush() {
-        if (handContainsFlush()) {
-            Suit mostFrequentSuit = getMostFrequentSuitInHand();
-            sortHandBySuit();
-            Card previousCardInSequence = cards.get(0);
-            int numberOfConsecutiveStraightCards = 1;
-            for (int i = 1; i < getSize(); i++) {
-                Card currentCardInSequence = cards.get(i);
-                if (currentCardInSequence.getSuit() == mostFrequentSuit) {
-                    if (twoSortedCardsAdjacentInRank(previousCardInSequence, currentCardInSequence)) {
-                        numberOfConsecutiveStraightCards++;
-                    } else {
-                        numberOfConsecutiveStraightCards = 1;
-                    }
-                } else {
-                    numberOfConsecutiveStraightCards = 1;
-                }
-                if (numberOfConsecutiveStraightCards == 5) {
-                    return true;
-                }
-                previousCardInSequence = currentCardInSequence;
+    private boolean listContainsCard(Card cardToCheck, List<Card> cardList) {
+        Suit suit = cardToCheck.getSuit();
+        Rank rank = cardToCheck.getRank();
+        for (Card card: cardList) {
+            if (card.getRank() == rank && card.getSuit() == suit) {
+                return true;
             }
         }
         return false;
+    }
+
+    /**
+     * Kicker is the highest ranked card in hand that is not used for the current hand ranking.
+     */
+    private Rank getKicker(List<Card> cardsUsedInRanking) {
+        sortHandByRank();
+        for (int i = 0; i < cards.size(); i++) {
+            Card currentHighestCard = cards.get(i);
+            if (!listContainsCard(currentHighestCard, cardsUsedInRanking)) {
+                return currentHighestCard.getRank();
+            }
+        }
+        return cards.get(0).getRank();
+    }
+
+    private HandRanking computeHandRanking() {
+        Optional<HandRanking> optionalHandRanking = rankHandAsRoyalFlushIfPresent();
+        if (optionalHandRanking.isPresent()) {
+            return optionalHandRanking.get();
+        }
+        optionalHandRanking = rankHandAsStraightFlushIfPresent();
+        if (optionalHandRanking.isPresent()) {
+            return optionalHandRanking.get();
+        }
+        optionalHandRanking = rankHandAsFourOfAKindIfPresent();
+        if (optionalHandRanking.isPresent()) {
+            return optionalHandRanking.get();
+        }
+        optionalHandRanking = rankHandAsFullHouseIfPresent();
+        if (optionalHandRanking.isPresent()) {
+            return optionalHandRanking.get();
+        }
+        optionalHandRanking = rankHandAsFlushIfPresent();
+        if (optionalHandRanking.isPresent()) {
+            return optionalHandRanking.get();
+        }
+        optionalHandRanking = rankHandAsStraightIfPresent();
+        if (optionalHandRanking.isPresent()) {
+            return optionalHandRanking.get();
+        }
+        optionalHandRanking = rankHandAsThreeOfAKindIfPresent();
+        if (optionalHandRanking.isPresent()) {
+            return optionalHandRanking.get();
+        }
+        optionalHandRanking = rankHandAsTwoPairIfPresent();
+        if (optionalHandRanking.isPresent()) {
+            return optionalHandRanking.get();
+        }
+        optionalHandRanking = rankHandAsOnePairIfPresent();
+        if (optionalHandRanking.isPresent()) {
+            return optionalHandRanking.get();
+        }
+        return new HandRanking(HandRankingCategory.HIGH_CARD, getKicker(Collections.emptyList()));
+    }
+
+    private Optional<HandRanking> rankHandAsRoyalFlushIfPresent() {
+        Suit mostFrequentSuit = getMostFrequentSuitInHand();
+        List<Card> cardsRequired = Arrays.asList(
+                new Card(mostFrequentSuit, Rank.TEN),
+                new Card(mostFrequentSuit, Rank.JACK),
+                new Card(mostFrequentSuit, Rank.QUEEN),
+                new Card(mostFrequentSuit, Rank.KING),
+                new Card(mostFrequentSuit, Rank.ACE));
+        return containsAllCards(cardsRequired) ?
+                Optional.of(new HandRanking(HandRankingCategory.ROYAL_FLUSH)) :
+                Optional.empty();
+    }
+
+    private Optional<HandRanking> rankHandAsStraightFlushIfPresent() {
+        Suit mostFrequentSuit = getMostFrequentSuitInHand();
+        sortHandBySuit();
+        List<Card> cardsUsedInRanking = new ArrayList<>();
+        Card previousCardInSequence = cards.get(0);
+        cardsUsedInRanking.add(previousCardInSequence);
+        int numberOfConsecutiveStraightCards = 1;
+        for (int i = 1; i < getSize(); i++) {
+            Card currentCardInSequence = cards.get(i);
+            if (currentCardInSequence.getSuit() == mostFrequentSuit) {
+                if (twoSortedCardsAdjacentInRank(previousCardInSequence, currentCardInSequence)) {
+                    numberOfConsecutiveStraightCards++;
+
+                } else {
+                    numberOfConsecutiveStraightCards = 1;
+                    cardsUsedInRanking.clear();
+                }
+            } else {
+                numberOfConsecutiveStraightCards = 1;
+                cardsUsedInRanking.clear();
+            }
+            cardsUsedInRanking.add(currentCardInSequence);
+            if (numberOfConsecutiveStraightCards == 5) {
+                return Optional.of(new HandRanking(
+                        HandRankingCategory.STRAIGHT_FLUSH,
+                        cardsUsedInRanking.get(0).getRank(),
+                        getKicker(cardsUsedInRanking)
+                ));
+            }
+            previousCardInSequence = currentCardInSequence;
+        }
+        return Optional.empty();
     }
 
     private boolean twoSortedCardsAdjacentInRank(Card card1, Card card2) {
@@ -140,23 +190,64 @@ public class Hand {
                 (card1.getRank() == Rank.ACE && card2.getRank() == Rank.DEUCE));
     }
 
-    private boolean handContainsFourOfAKind() {
-        return computeNumberOfCardsOfEachRankInHand().containsValue(4);
+    private Optional<HandRanking> rankHandAsFourOfAKindIfPresent() {
+        Map<Rank, Integer> numberOfCardsOfEachRankInHand = computeNumberOfCardsOfEachRankInHand();
+        if (numberOfCardsOfEachRankInHand.containsValue(4)) {
+            for(Rank rank : numberOfCardsOfEachRankInHand.keySet()) {
+                if (numberOfCardsOfEachRankInHand.get(rank) == 4) {
+                    List<Card> cardsUsedInRanking = getAllCardsOfGivenRankInHand(rank);
+                    return Optional.of(new HandRanking(
+                            HandRankingCategory.FOUR_OF_A_KIND, rank, getKicker(cardsUsedInRanking)));
+                }
+            }
+        }
+        return Optional.empty();
     }
 
-    private boolean handContainsFullHouse() {
-        return handContainsThreeOfAKind() && handContainsOnePair();
+    private List<Card> getAllCardsOfGivenRankInHand(Rank rank) {
+        return cards.stream().filter(card -> card.getRank() == rank).collect(Collectors.toList());
     }
 
-    private boolean handContainsFlush() {
+    private Optional<HandRanking> rankHandAsFullHouseIfPresent() {
+        Map<Rank, Integer> numberOfCardsOfEachRankInHand = computeNumberOfCardsOfEachRankInHand();
+        if (numberOfCardsOfEachRankInHand.containsValue(3) && numberOfCardsOfEachRankInHand.containsValue(2)) {
+            Rank firstTiebreak = null;
+            Rank secondTiebreak = null;
+            for (Rank rank : numberOfCardsOfEachRankInHand.keySet()) {
+                if (numberOfCardsOfEachRankInHand.get(rank) == 3) {
+                    firstTiebreak = rank;
+                } else if (numberOfCardsOfEachRankInHand.get(rank) == 2) {
+                    secondTiebreak = rank;
+                }
+            }
+            return Optional.of(new HandRanking(HandRankingCategory.FULL_HOUSE, firstTiebreak, secondTiebreak));
+        }
+        return Optional.empty();
+    }
+
+    private Optional<HandRanking> rankHandAsFlushIfPresent() {
         Map<Suit, Integer> numberOfCardsOfEachSuitInHand = computeNumberOfCardsOfEachSuitInHand();
         Suit mostFrequentSuit = getMostFrequentSuitInHand();
-        return numberOfCardsOfEachSuitInHand.get(mostFrequentSuit) >= 5;
+        if (numberOfCardsOfEachSuitInHand.get(mostFrequentSuit) >= 5) {
+            List<Card> cardsUsedInRanking = getAllCardsOfGivenSuitInHand(mostFrequentSuit);
+            cardsUsedInRanking.sort(Card.rankOrder);
+            cardsUsedInRanking = cardsUsedInRanking.subList(0, 5);
+            Rank highestRankUsed = cardsUsedInRanking.get(0).getRank();
+            return Optional.of(
+                    new HandRanking(HandRankingCategory.FLUSH, highestRankUsed, getKicker(cardsUsedInRanking)));
+        }
+        return Optional.empty();
     }
 
-    private boolean handContainsStraight() {
+    private List<Card> getAllCardsOfGivenSuitInHand(Suit suit) {
+        return cards.stream().filter(card -> card.getSuit() == suit).collect(Collectors.toList());
+    }
+
+    private Optional<HandRanking> rankHandAsStraightIfPresent() {
         sortHandByRank();
+        List<Card> cardsUsedInRanking = new ArrayList<>();
         Card previousCardInSequence = cards.get(0);
+        cardsUsedInRanking.add(previousCardInSequence);
         int numberOfConsecutiveStraightCards = 1;
         for (int i = 1; i < getSize(); i++) {
             Card currentCardInSequence = cards.get(i);
@@ -164,25 +255,71 @@ public class Hand {
                 numberOfConsecutiveStraightCards++;
             } else {
                 numberOfConsecutiveStraightCards = 1;
+                cardsUsedInRanking.clear();
             }
+            cardsUsedInRanking.add(currentCardInSequence);
             if (numberOfConsecutiveStraightCards == 5) {
-                return true;
+                return Optional.of(new HandRanking(
+                        HandRankingCategory.STRAIGHT,
+                        cardsUsedInRanking.get(0).getRank(),
+                        getKicker(cardsUsedInRanking)
+                ));
             }
             previousCardInSequence = currentCardInSequence;
         }
-        return false;
+        return Optional.empty();
     }
 
-    private boolean handContainsThreeOfAKind() {
-        return computeNumberOfCardsOfEachRankInHand().containsValue(3);
+    private Optional<HandRanking> rankHandAsThreeOfAKindIfPresent() {
+        Map<Rank, Integer> numberOfCardsOfEachRankInHand = computeNumberOfCardsOfEachRankInHand();
+        if (numberOfCardsOfEachRankInHand.containsValue(3)) {
+            for (Rank rank : numberOfCardsOfEachRankInHand.keySet()) {
+                if (numberOfCardsOfEachRankInHand.get(rank) == 3) {
+                    List<Card> cardsUsedInRanking = getAllCardsOfGivenRankInHand(rank);
+                    return Optional.of(new HandRanking(
+                            HandRankingCategory.THREE_OF_A_KIND, rank, getKicker(cardsUsedInRanking)
+                    ));
+                }
+            }
+        }
+        return Optional.empty();
     }
 
-    private boolean handContainsTwoPair() {
-        return computeNumberOfCardsOfEachRankInHand().values().stream().filter(val -> val == 2).toArray().length == 2;
+    private Optional<HandRanking> rankHandAsTwoPairIfPresent() {
+        Map<Rank, Integer> numberOfCardsOfEachRankInHand = computeNumberOfCardsOfEachRankInHand();
+        if (numberOfCardsOfEachRankInHand.values().stream().filter(val -> val == 2).toArray().length == 2) {
+            List<Rank> ranksUsedForPairs = new ArrayList<>();
+            for (Rank rank : numberOfCardsOfEachRankInHand.keySet()) {
+                if (numberOfCardsOfEachRankInHand.get(rank) == 2) {
+                    ranksUsedForPairs.add(rank);
+                }
+            }
+            Rank higherRank = ranksUsedForPairs.get(0).ordinal() > ranksUsedForPairs.get(1).ordinal() ?
+                    ranksUsedForPairs.get(0) :
+                    ranksUsedForPairs.get(1);
+            Rank lowerRank = ranksUsedForPairs.get(0).ordinal() < ranksUsedForPairs.get(1).ordinal() ?
+                    ranksUsedForPairs.get(0) :
+                    ranksUsedForPairs.get(1);
+            return Optional.of(new HandRanking(
+                    HandRankingCategory.TWO_PAIR, higherRank, lowerRank));
+        }
+        return Optional.empty();
     }
 
-    private boolean handContainsOnePair() {
-        return computeNumberOfCardsOfEachRankInHand().containsValue(2);
+
+    private Optional<HandRanking> rankHandAsOnePairIfPresent() {
+        Map<Rank, Integer> numberOfCardsOfEachRankInHand = computeNumberOfCardsOfEachRankInHand();
+        if (numberOfCardsOfEachRankInHand.containsValue(2)) {
+            for (Rank rank : numberOfCardsOfEachRankInHand.keySet()) {
+                if (numberOfCardsOfEachRankInHand.get(rank) == 2) {
+                    List<Card> cardsUsedInRanking = getAllCardsOfGivenRankInHand(rank);
+                    return Optional.of(new HandRanking(
+                            HandRankingCategory.ONE_PAIR, rank, getKicker(cardsUsedInRanking)
+                    ));
+                }
+            }
+        }
+        return Optional.empty();
     }
 
     private Suit getMostFrequentSuitInHand() {

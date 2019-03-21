@@ -157,4 +157,16 @@ public class HandFactory {
         hand.addCard(CardFactory.createFourOfSuit(Suit.SPADES));
         return hand;
     }
+
+    public static Hand createFullHouseHandWithThreeDeuces() {
+        Hand hand = new Hand();
+        hand.addCard(CardFactory.createTwoOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createTwoOfSuit(Suit.SPADES));
+        hand.addCard(CardFactory.createTwoOfSuit(Suit.DIAMONDS));
+        hand.addCard(CardFactory.createQueenOfSuit(Suit.CLUBS));
+        hand.addCard(CardFactory.createQueenOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createEightOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createSevenOfSuit(Suit.HEARTS));
+        return hand;
+    }
 }

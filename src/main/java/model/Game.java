@@ -63,12 +63,12 @@ public class Game {
     }
 
     private void determineWinner() {
-        int bestHandRanking = -1;
+        HandRanking bestHandRanking = new HandRanking(HandRankingCategory.HIGH_CARD, Rank.DEUCE);
         for (Player player : players) {
             HandRanking currentPlayersRanking = player.getHandRanking();
-            if (currentPlayersRanking.ordinal() > bestHandRanking) {
+            if (currentPlayersRanking.compareTo(bestHandRanking) > 0) {
                 winner = player;
-                bestHandRanking = currentPlayersRanking.ordinal();
+                bestHandRanking = currentPlayersRanking;
             }
         }
     }

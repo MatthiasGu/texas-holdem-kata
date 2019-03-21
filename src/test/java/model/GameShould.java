@@ -120,4 +120,19 @@ public class GameShould {
         Assert.assertEquals(winner, game.getWinner());
     }
 
+    @Test
+    public void determineTieBreakWhenGameEndsIfTwoPlayersHaveEqualRankingHand() {
+        int numberOfPlayers = 2;
+        Game game = new Game(numberOfPlayers);
+        Hand winningHand = HandFactory.createFullHouseHand();
+        Hand losingHand = HandFactory.createFullHouseHandWithThreeDeuces();
+        List<Player> players = game.getPlayers();
+        Player loser = players.get(0);
+        Player winner = players.get(1);
+        winner.setHand(winningHand.getCards());
+        loser.setHand(losingHand.getCards());
+        game.end();
+        Assert.assertEquals(winner, game.getWinner());
+    }
+
 }
