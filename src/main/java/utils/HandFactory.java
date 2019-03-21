@@ -93,7 +93,7 @@ public class HandFactory {
         hand.addCard(CardFactory.createJackOfSuit(Suit.DIAMONDS));
         hand.addCard(CardFactory.createTenOfSuit(Suit.SPADES));
         hand.addCard(CardFactory.createNineOfSuit(Suit.HEARTS));
-        hand.addCard(CardFactory.createFourOfSuit(Suit.CLUBS));
+        hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));
         hand.addCard(CardFactory.createSevenOfSuit(Suit.HEARTS));
         return hand;
     }

@@ -27,14 +27,14 @@ public class Card {
     public static final Comparator<Card> suitOrder = (Card card1, Card card2) -> {
         int compareSuits = Integer.compare(card1.suit.ordinal(), card2.suit.ordinal());
         if (compareSuits == 0) {
-            return Integer.compare(card1.rank.ordinal(), card2.rank.ordinal());
+            return Integer.compare(card2.rank.ordinal(), card1.rank.ordinal());
         } else {
             return compareSuits;
         }
     };
 
     public static final Comparator<Card> rankOrder = (Card card1, Card card2) -> {
-        int compareRanks = Integer.compare(card1.rank.ordinal(), card2.rank.ordinal());
+        int compareRanks = Integer.compare(card2.rank.ordinal(), card1.rank.ordinal());
         if (compareRanks == 0) {
             return Integer.compare(card1.suit.ordinal(), card2.suit.ordinal());
         } else {

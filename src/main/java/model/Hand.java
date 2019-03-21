@@ -186,8 +186,8 @@ public class Hand {
     }
 
     private boolean twoSortedCardsAdjacentInRank(Card card1, Card card2) {
-        return ((card2.getRank().ordinal() == card1.getRank().ordinal() + 1) ||
-                (card1.getRank() == Rank.ACE && card2.getRank() == Rank.DEUCE));
+        return ((card1.getRank().ordinal() == card2.getRank().ordinal() + 1) ||
+                (card2.getRank() == Rank.ACE && card1.getRank() == Rank.DEUCE));
     }
 
     private Optional<HandRanking> rankHandAsFourOfAKindIfPresent() {

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class HandRanking implements Comparable<HandRanking> {
     private HandRankingCategory handRankingCategory;
     private Rank firstTiebreak;
@@ -21,6 +23,16 @@ public class HandRanking implements Comparable<HandRanking> {
 
     public HandRankingCategory getHandRankingCategory() {
         return handRankingCategory;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HandRanking that = (HandRanking) o;
+        return handRankingCategory == that.handRankingCategory &&
+                firstTiebreak == that.firstTiebreak &&
+                secondTiebreak == that.secondTiebreak;
     }
 
     @Override
