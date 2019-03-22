@@ -117,7 +117,8 @@ public class GameShould {
         winner.setHand(winningHand.getCards());
         loser.setHand(losingHand.getCards());
         game.end();
-        Assert.assertEquals(winner, game.getWinner());
+        Assert.assertEquals(1, game.getWinners().size());
+        Assert.assertEquals(winner, game.getWinners().get(0));
     }
 
     @Test
@@ -132,7 +133,24 @@ public class GameShould {
         winner.setHand(winningHand.getCards());
         loser.setHand(losingHand.getCards());
         game.end();
-        Assert.assertEquals(winner, game.getWinner());
+        Assert.assertEquals(1, game.getWinners().size());
+        Assert.assertEquals(winner, game.getWinners().get(0));
+    }
+
+    @Test
+    public void endInATieWithTwoWinnersIfBothPlayersHaveEquivalentHands() {
+        int numberOfPlayers = 2;
+        Game game = new Game(numberOfPlayers);
+        Hand hand = HandFactory.createFullHouseHand();
+        List<Player> players = game.getPlayers();
+        Player player1 = players.get(0);
+        Player player2 = players.get(1);
+        player1.setHand(hand.getCards());
+        player2.setHand(hand.getCards());
+        game.end();
+        Assert.assertEquals(2, game.getWinners().size());
+        Assert.assertEquals(player1, game.getWinners().get(0));
+        Assert.assertEquals(player2, game.getWinners().get(1));
     }
 
 }
