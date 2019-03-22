@@ -39,14 +39,15 @@ public class HandRanking implements Comparable<HandRanking> {
     public int compareTo(HandRanking handRanking) {
         int rankingComparison = Integer.compare(
                 this.handRankingCategory.ordinal(), handRanking.handRankingCategory.ordinal());
-        if (rankingComparison == 0) {
+        if (rankingComparison == 0 && this.firstTiebreak != null && handRanking.firstTiebreak != null) {
             int firstTiebreakComparison = Integer.compare(
                     this.firstTiebreak.ordinal(), handRanking.firstTiebreak.ordinal());
-            if (firstTiebreakComparison == 0) {
+            if (firstTiebreakComparison == 0 && this.secondTiebreak != null && handRanking.secondTiebreak != null) {
                 return Integer.compare(this.secondTiebreak.ordinal(), handRanking.secondTiebreak.ordinal());
             }
             return firstTiebreakComparison;
         }
         return rankingComparison;
     }
+
 }
