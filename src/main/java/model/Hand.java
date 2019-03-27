@@ -99,43 +99,61 @@ public class Hand {
     }
 
     private HandRanking computeHandRanking() {
-        Optional<HandRanking> optionalHandRanking = rankHandAsRoyalFlushIfPresent();
-        if (optionalHandRanking.isPresent()) {
-            return optionalHandRanking.get();
+        int highestNumberOfCardsOfOneRankInHand = getHighestNumberOfCardsOfOneRankInHand();
+        if (highestNumberOfCardsOfOneRankInHand >= 2) {
+            return checkNonFlushOrStraightHandRankings(highestNumberOfCardsOfOneRankInHand);
+        } else {
+            HandRanking backupRanking =
+                    new HandRanking(HandRankingCategory.HIGH_CARD, getKicker(Collections.emptyList()));
+            return checkStraightAndFlushRankings(backupRanking);
         }
-        optionalHandRanking = rankHandAsStraightFlushIfPresent();
-        if (optionalHandRanking.isPresent()) {
-            return optionalHandRanking.get();
+    }
+
+    private HandRanking checkNonFlushOrStraightHandRankings(int highestNumberOfCardsOfOneRankInHand) {
+        if (highestNumberOfCardsOfOneRankInHand == 2) {
+            Optional<HandRanking> twoPairRankingIfPresent = rankHandAsTwoPairIfPresent();
+            if (twoPairRankingIfPresent.isPresent()) {
+                return checkStraightAndFlushRankings(twoPairRankingIfPresent.get());
+            } else {
+                return checkStraightAndFlushRankings(rankHandAsOnePairIfPresent().get());
+            }
+        } else if (highestNumberOfCardsOfOneRankInHand == 3) {
+            return checkThreeOfAKindAndFullHouseRankings();
         }
-        optionalHandRanking = rankHandAsFourOfAKindIfPresent();
-        if (optionalHandRanking.isPresent()) {
-            return optionalHandRanking.get();
+        return rankHandAsFourOfAKindIfPresent().get();
+
+    }
+
+    private HandRanking checkThreeOfAKindAndFullHouseRankings() {
+        Optional<HandRanking> fullHouseRankingIfPresent = rankHandAsFullHouseIfPresent();
+        return fullHouseRankingIfPresent.orElseGet(
+                () -> checkStraightAndFlushRankings(rankHandAsThreeOfAKindIfPresent().get()));
+    }
+
+    private HandRanking checkStraightAndFlushRankings(HandRanking backupRanking) {
+        Optional <HandRanking> flushRankingIfPresent = rankHandAsFlushIfPresent();
+        if (flushRankingIfPresent.isPresent()) {
+            return checkStraightFlushRankings(flushRankingIfPresent.get());
         }
-        optionalHandRanking = rankHandAsFullHouseIfPresent();
-        if (optionalHandRanking.isPresent()) {
-            return optionalHandRanking.get();
+        return checkStraightRankings(backupRanking);
+    }
+
+    private HandRanking checkStraightRankings(HandRanking backupRanking) {
+        Optional <HandRanking> straightRankingIfPresent = rankHandAsStraightIfPresent();
+        return straightRankingIfPresent.orElse(backupRanking);
+    }
+
+    private HandRanking checkStraightFlushRankings(HandRanking backupRanking) {
+        Optional <HandRanking> straightFlushRankingIfPresent = rankHandAsStraightFlushIfPresent();
+        if (straightFlushRankingIfPresent.isPresent()) {
+            return checkRoyalFlushRankings(straightFlushRankingIfPresent.get());
         }
-        optionalHandRanking = rankHandAsFlushIfPresent();
-        if (optionalHandRanking.isPresent()) {
-            return optionalHandRanking.get();
-        }
-        optionalHandRanking = rankHandAsStraightIfPresent();
-        if (optionalHandRanking.isPresent()) {
-            return optionalHandRanking.get();
-        }
-        optionalHandRanking = rankHandAsThreeOfAKindIfPresent();
-        if (optionalHandRanking.isPresent()) {
-            return optionalHandRanking.get();
-        }
-        optionalHandRanking = rankHandAsTwoPairIfPresent();
-        if (optionalHandRanking.isPresent()) {
-            return optionalHandRanking.get();
-        }
-        optionalHandRanking = rankHandAsOnePairIfPresent();
-        if (optionalHandRanking.isPresent()) {
-            return optionalHandRanking.get();
-        }
-        return new HandRanking(HandRankingCategory.HIGH_CARD, getKicker(Collections.emptyList()));
+        return backupRanking;
+    }
+
+    private HandRanking checkRoyalFlushRankings(HandRanking backupRanking) {
+        Optional <HandRanking> royalFlushRankingIfPresent = rankHandAsRoyalFlushIfPresent();
+        return royalFlushRankingIfPresent.orElse(backupRanking);
     }
 
     private Optional<HandRanking> rankHandAsRoyalFlushIfPresent() {
@@ -334,6 +352,11 @@ public class Hand {
             }
         }
         return mostFrequentSuit;
+    }
+
+    private int getHighestNumberOfCardsOfOneRankInHand() {
+        Map<Rank, Integer> numberOfCardsOfEachRankInHand = computeNumberOfCardsOfEachRankInHand();
+        return numberOfCardsOfEachRankInHand.values().stream().max(Comparator.comparing(Integer::intValue)).get();
     }
 
     private Map<Rank, Integer> computeNumberOfCardsOfEachRankInHand() {

@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Objects;
-
 public class HandRanking implements Comparable<HandRanking> {
     private HandRankingCategory handRankingCategory;
     private Rank firstTiebreak;
