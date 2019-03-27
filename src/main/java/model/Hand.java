@@ -111,17 +111,46 @@ public class Hand {
 
     private HandRanking checkNonFlushOrStraightHandRankings(int highestNumberOfCardsOfOneRankInHand) {
         if (highestNumberOfCardsOfOneRankInHand == 2) {
-            Optional<HandRanking> twoPairRankingIfPresent = rankHandAsTwoPairIfPresent();
-            if (twoPairRankingIfPresent.isPresent()) {
-                return checkStraightAndFlushRankings(twoPairRankingIfPresent.get());
-            } else {
-                return checkStraightAndFlushRankings(rankHandAsOnePairIfPresent().get());
-            }
+            return checkStraightAndFlushRankings(checkPairRankings());
         } else if (highestNumberOfCardsOfOneRankInHand == 3) {
             return checkThreeOfAKindAndFullHouseRankings();
         }
         return rankHandAsFourOfAKindIfPresent().get();
+    }
 
+    private HandRanking checkPairRankings() {
+        Map<Rank, Integer> numberOfCardsOfEachRankInHand = computeNumberOfCardsOfEachRankInHand();
+        if (numberOfCardsOfEachRankInHand.values().stream().filter(val -> val == 2).toArray().length >= 2) {
+            return rankHandAsTwoPair();
+        }
+        return rankHandAsOnePair();
+    }
+
+    private HandRanking rankHandAsTwoPair() {
+        Map<Rank, Integer> numberOfCardsOfEachRankInHand = computeNumberOfCardsOfEachRankInHand();
+        List<Rank> ranksUsedForPairs = new ArrayList<>();
+        for (Rank rank : numberOfCardsOfEachRankInHand.keySet()) {
+            if (numberOfCardsOfEachRankInHand.get(rank) == 2) {
+                ranksUsedForPairs.add(rank);
+            }
+        }
+        ranksUsedForPairs.sort(Comparator.comparing(Rank::ordinal).reversed());
+        Rank higherRank = ranksUsedForPairs.get(0);
+        Rank lowerRank = ranksUsedForPairs.get(1);
+        return new HandRanking(HandRankingCategory.TWO_PAIR, higherRank, lowerRank);
+    }
+
+
+    private HandRanking rankHandAsOnePair() {
+        Map<Rank, Integer> numberOfCardsOfEachRankInHand = computeNumberOfCardsOfEachRankInHand();
+        Rank rankWithThePair = Rank.ACE;
+        for (Rank rank : numberOfCardsOfEachRankInHand.keySet()) {
+            if (numberOfCardsOfEachRankInHand.get(rank) == 2) {
+                rankWithThePair = rank;
+            }
+        }
+        List<Card> cardsUsedInRanking = getAllCardsOfGivenRankInHand(rankWithThePair);
+        return new HandRanking(HandRankingCategory.ONE_PAIR, rankWithThePair, getKicker(cardsUsedInRanking));
     }
 
     private HandRanking checkThreeOfAKindAndFullHouseRankings() {
@@ -296,43 +325,6 @@ public class Hand {
                     List<Card> cardsUsedInRanking = getAllCardsOfGivenRankInHand(rank);
                     return Optional.of(new HandRanking(
                             HandRankingCategory.THREE_OF_A_KIND, rank, getKicker(cardsUsedInRanking)
-                    ));
-                }
-            }
-        }
-        return Optional.empty();
-    }
-
-    private Optional<HandRanking> rankHandAsTwoPairIfPresent() {
-        Map<Rank, Integer> numberOfCardsOfEachRankInHand = computeNumberOfCardsOfEachRankInHand();
-        if (numberOfCardsOfEachRankInHand.values().stream().filter(val -> val == 2).toArray().length == 2) {
-            List<Rank> ranksUsedForPairs = new ArrayList<>();
-            for (Rank rank : numberOfCardsOfEachRankInHand.keySet()) {
-                if (numberOfCardsOfEachRankInHand.get(rank) == 2) {
-                    ranksUsedForPairs.add(rank);
-                }
-            }
-            Rank higherRank = ranksUsedForPairs.get(0).ordinal() > ranksUsedForPairs.get(1).ordinal() ?
-                    ranksUsedForPairs.get(0) :
-                    ranksUsedForPairs.get(1);
-            Rank lowerRank = ranksUsedForPairs.get(0).ordinal() < ranksUsedForPairs.get(1).ordinal() ?
-                    ranksUsedForPairs.get(0) :
-                    ranksUsedForPairs.get(1);
-            return Optional.of(new HandRanking(
-                    HandRankingCategory.TWO_PAIR, higherRank, lowerRank));
-        }
-        return Optional.empty();
-    }
-
-
-    private Optional<HandRanking> rankHandAsOnePairIfPresent() {
-        Map<Rank, Integer> numberOfCardsOfEachRankInHand = computeNumberOfCardsOfEachRankInHand();
-        if (numberOfCardsOfEachRankInHand.containsValue(2)) {
-            for (Rank rank : numberOfCardsOfEachRankInHand.keySet()) {
-                if (numberOfCardsOfEachRankInHand.get(rank) == 2) {
-                    List<Card> cardsUsedInRanking = getAllCardsOfGivenRankInHand(rank);
-                    return Optional.of(new HandRanking(
-                            HandRankingCategory.ONE_PAIR, rank, getKicker(cardsUsedInRanking)
                     ));
                 }
             }

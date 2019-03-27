@@ -118,6 +118,15 @@ public class HandShould {
     }
 
     @Test
+    public void computeTwoPairRankingWithCorrectHighCardsWhenThereAreThreePairs() {
+        Hand hand = HandFactory.createTwoPairHandWithThreePairs();
+        hand.rankHand();
+        HandRanking actualRanking = hand.getHandRanking();
+        HandRanking expectedRanking = new HandRanking(HandRankingCategory.TWO_PAIR, Rank.KING, Rank.QUEEN);
+        Assert.assertEquals(expectedRanking, actualRanking);
+    }
+
+    @Test
     public void computeOnePairRankingWithCorrectHighCardAndKicker() {
         Hand hand = HandFactory.createOnePairHand();
         hand.rankHand();

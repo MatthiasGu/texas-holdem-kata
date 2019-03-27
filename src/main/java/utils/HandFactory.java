@@ -128,6 +128,18 @@ public class HandFactory {
         return hand;
     }
 
+    public static Hand createTwoPairHandWithThreePairs() {
+        Hand hand = new Hand();
+        hand.addCard(CardFactory.createKingOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createKingOfSuit(Suit.SPADES));
+        hand.addCard(CardFactory.createQueenOfSuit(Suit.DIAMONDS));
+        hand.addCard(CardFactory.createQueenOfSuit(Suit.CLUBS));
+        hand.addCard(CardFactory.createNineOfSuit(Suit.HEARTS));
+        hand.addCard(CardFactory.createNineOfSuit(Suit.CLUBS));
+        hand.addCard(CardFactory.createSevenOfSuit(Suit.HEARTS));
+        return hand;
+    }
+
     /**
      * Creates a {@link Hand} containing one Pair (Two cards of the same rank).
      */
