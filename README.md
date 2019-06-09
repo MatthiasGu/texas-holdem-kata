@@ -23,6 +23,7 @@ Therefore, a more efficient way is dividing the possible hand rankings into two 
 that makes it rather difficult to check efficiently, because there are two possible groups:
   * Single rank group - one pair -> three of a kind -> four of a kind
   * Two rank groups - two pair -> full house
+  
 Since three of a kind ranks higher than two pair, but four of a kind ranks lower than full house, this grouping is awkward to check.
 However, I think this grouping is not actually logically accurate. Full house does not follow from two pair, but rather from three of a
 kind + one pair. This makes the groups as follows:
